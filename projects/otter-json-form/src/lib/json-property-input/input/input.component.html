@@ -1,0 +1,53 @@
+<ng-container *ngIf="property.isScalar()">
+  <app-vf-input *ngIf="!property.isHidden"
+                [id]="id"
+                [formControl]="control"
+                [label]="label"
+                [dataType]="property.schema.type"
+                [placeholder]="placeholder"
+                [helperText]="helperText"
+                [isRequired]="isRequired">
+  </app-vf-input>
+</ng-container>
+
+<ng-container *ngIf="property.isObject()">
+  <ng-container *ngFor="let child of property.childrenProperties">
+    <json-property [id]="id + '-' + child.key"
+                   [property]="child"
+                   [control]="control['controls'][child.key]">
+
+    </json-property>
+  </ng-container>
+</ng-container>
+
+
+<ng-container *ngIf="property.isObjectList()">
+  <ng-container *ngFor="let formGroup of control['controls'] ; let i = index">
+    <ng-container *ngFor="let child of property.childrenProperties">
+
+      <json-property [id]="id + '-' + i + '-' + child.key"
+                     [property]="child"
+                     [control]="formGroup['controls'][child.key]">
+        
+      </json-property>
+    </ng-container>
+
+    <ng-container *ngIf="!property.isDisabled">
+      <a color="warn" mat-icon-button
+         (click)="removeFormControl(control, i)">
+        <mat-icon>remove_circle_outline</mat-icon>
+        Remove
+      </a>
+    </ng-container>
+
+    <hr class="vf-divider">
+  </ng-container>
+  <ng-container *ngIf="!property.isDisabled">
+    <a mat-icon-button
+       (click)="addFormControl(property, control)">
+      <mat-icon>add_circle_outline</mat-icon>
+      Add a {{singularize(property.key)}}
+    </a>
+  </ng-container>
+
+</ng-container>

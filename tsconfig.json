@@ -14,7 +14,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "otter-json-form": [
+        "dist/otter-json-form/otter-json-form",
+        "dist/otter-json-form"
+      ]
+    },
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
