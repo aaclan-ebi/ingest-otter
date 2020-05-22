@@ -1,4 +1,8 @@
 # OtterJsonForm
+
+<img src="/images/otter.png" alt="otter" width="50"/>
+
+
 ## Why `Otter` ?
 
 It sounds like the  `AUDR`  (Add, Update, Delete, Read) and this is a json schema form builder library which allows users to interact with JSON data.
