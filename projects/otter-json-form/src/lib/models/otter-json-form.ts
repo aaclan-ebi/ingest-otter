@@ -57,44 +57,44 @@ export class OtterJsonForm {
   buildPropertyRegistry(parentKey: string, jsonSchema: JsonSchema): void {
     const registry = this.propertyRegistry;
 
-    let parentMetadata;
+    let parentProperty;
     if (registry[parentKey] === undefined) {
-      parentMetadata = new JsonProperty({
+      parentProperty = new JsonProperty({
         key: parentKey,
         schema: jsonSchema as JsonSchemaProperty
       });
-      registry[parentKey] = parentMetadata;
+      registry[parentKey] = parentProperty;
     } else {
-      parentMetadata = registry[parentKey];
+      parentProperty = registry[parentKey];
     }
 
     for (const key of Object.keys(jsonSchema.properties)) {
-      let metadata: JsonProperty;
-      const metadataKey = parentKey ? parentKey + '.' + key : key;
-      if (registry[metadataKey] === undefined) {
-        metadata = this.helper.createMetadata(jsonSchema, key);
-        registry[metadataKey] = metadata;
+      let property: JsonProperty;
+      const propertyKey = parentKey ? parentKey + '.' + key : key;
+      if (registry[propertyKey] === undefined) {
+        property = this.helper.createJsonProperty(jsonSchema, key);
+        registry[propertyKey] = property;
       } else {
-        metadata = registry[metadataKey];
+        property = registry[propertyKey];
       }
 
-      parentMetadata.addChild(metadataKey);
-      parentMetadata.addChildMetadata(metadata);
-      metadata.setParent(parentKey);
-      metadata.setParentMetadata(parentMetadata);
+      parentProperty.addChild(propertyKey);
+      parentProperty.addChildProperty(property);
+      property.setParent(parentKey);
+      property.setParentProperty(parentProperty);
 
-      if (parentMetadata.isHidden) {
-        metadata.setHidden(true);
+      if (parentProperty.isHidden) {
+        property.setHidden(true);
       }
 
-      if (metadata.isScalar()) {
-      } else if (metadata.isScalarList()) {
+      if (property.isScalar()) {
+      } else if (property.isScalarList()) {
 
-      } else if (metadata.isObject()) {
-        this.buildPropertyRegistry(metadataKey, metadata.schema as JsonSchema);
+      } else if (property.isObject()) {
+        this.buildPropertyRegistry(propertyKey, property.schema as JsonSchema);
 
-      } else if (metadata.isObjectList()) {
-        this.buildPropertyRegistry(metadataKey, metadata.schema.items as JsonSchema);
+      } else if (property.isObjectList()) {
+        this.buildPropertyRegistry(propertyKey, property.schema.items as JsonSchema);
 
       }
     }

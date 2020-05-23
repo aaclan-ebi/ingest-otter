@@ -11,11 +11,11 @@ import {Ontology} from '../ontology-base/ontology';
 
 describe('OntologyInputComponent', () => {
   let olsSvc: jasmine.SpyObj<OntologyService>;
-  let metadata: JsonProperty;
+  let jsonProperty: JsonProperty;
   let control: AbstractControl;
   let helper: OtterJsonFormHelper;
   let schema: JsonSchema;
-  let metadataSvc: OtterJsonFormService;
+  let otterJsonFormService: OtterJsonFormService;
   let olsResponse: OlsHttpResponse;
 
   beforeEach(() => {
@@ -65,13 +65,13 @@ describe('OntologyInputComponent', () => {
         }
       }
     };
-    metadata = new JsonProperty({
+    jsonProperty = new JsonProperty({
       schema: schema as JsonSchemaProperty,
       key: 'project_role',
       isRequired: false
     });
     helper = new OtterJsonFormHelper();
-    metadataSvc = new OtterJsonFormService();
+    otterJsonFormService = new OtterJsonFormService();
     control = helper.toFormGroup(schema);
     const response = {
       numFound: 1,
@@ -98,7 +98,7 @@ describe('OntologyInputComponent', () => {
 
     beforeEach(() => {
       component = new OntologyInputComponent(olsSvc);
-      component.property = metadata;
+      component.property = jsonProperty;
       component.control = control;
       component.ngOnInit();
     });
@@ -112,7 +112,7 @@ describe('OntologyInputComponent', () => {
       component.updateControl('');
 
       // then
-      expect(metadataSvc.cleanFormData(control.value)).toEqual({});
+      expect(otterJsonFormService.cleanFormData(control.value)).toEqual({});
     });
 
     it('should reset control when input is all whitespace', () => {
@@ -124,7 +124,7 @@ describe('OntologyInputComponent', () => {
       component.updateControl('     ');
 
       // then
-      expect(metadataSvc.cleanFormData(control.value)).toEqual({});
+      expect(otterJsonFormService.cleanFormData(control.value)).toEqual({});
     });
 
     it('should reset search control to its original value when input is a string', () => {
@@ -136,8 +136,8 @@ describe('OntologyInputComponent', () => {
       component.updateControl('keyword');
 
       // then
-      expect(metadataSvc.cleanFormData(component.searchControl.value)).toEqual(ontology);
-      expect(metadataSvc.cleanFormData(component.control.value)).toEqual(ontology);
+      expect(otterJsonFormService.cleanFormData(component.searchControl.value)).toEqual(ontology);
+      expect(otterJsonFormService.cleanFormData(component.control.value)).toEqual(ontology);
     });
 
     it('should copy search control value to control value when input is an ontology object', () => {
@@ -152,7 +152,7 @@ describe('OntologyInputComponent', () => {
       component.updateControl(ontology2);
 
       // then
-      expect(metadataSvc.cleanFormData(component.control.value)).toEqual(ontology2);
+      expect(otterJsonFormService.cleanFormData(component.control.value)).toEqual(ontology2);
     });
 
     it('should reset search control to the control value when input is undefined', () => {
@@ -167,7 +167,7 @@ describe('OntologyInputComponent', () => {
       component.updateControl(undefined);
 
       // then
-      expect(metadataSvc.cleanFormData(component.searchControl.value)).toEqual(ontology2);
+      expect(otterJsonFormService.cleanFormData(component.searchControl.value)).toEqual(ontology2);
     });
   });
 });

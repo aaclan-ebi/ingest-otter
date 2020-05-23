@@ -64,17 +64,17 @@ export class MultipleSelectComponent implements OnInit {
 
   searchControl: FormControl;
 
-  constructor(private metadataFormService: OtterJsonFormService) {
+  constructor(private otterJsonFormService: OtterJsonFormService) {
   }
 
 
   ngOnInit() {
     this.removable = this.disabled ? false : true;
-    const value = this.metadataFormService.cleanFormData(this.value);
+    const value = this.otterJsonFormService.cleanFormData(this.value);
     this.selectedValues = value ? value : [];
     this.searchControl = this.createSearchControl();
-    this.searchControl.valueChanges.subscribe(value => {
-      this.onSearchValueChanged(value ? value : '');
+    this.searchControl.valueChanges.subscribe(val => {
+      this.onSearchValueChanged(val ? val : '');
     });
   }
 

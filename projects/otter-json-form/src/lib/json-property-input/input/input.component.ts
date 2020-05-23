@@ -30,11 +30,11 @@ export class InputComponent extends JsonPropertyBaseComponent {
     }
   }
 
-  addFormControl(metadata: JsonProperty, formControl: AbstractControl) {
+  addFormControl(property: JsonProperty, formControl: AbstractControl) {
     const formArray = formControl as FormArray;
     const count = formArray.length;
 
-    const formGroup: FormGroup = this.formHelper.toFormGroup(metadata.schema.items as JsonSchema);
+    const formGroup: FormGroup = this.formHelper.toFormGroup(property.schema.items as JsonSchema);
     formArray.insert(count, formGroup);
   }
 }

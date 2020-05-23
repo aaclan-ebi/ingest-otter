@@ -12,7 +12,7 @@ describe('createSearchParams', () => {
   let http: jasmine.SpyObj<HttpClient>;
 
   let schema: JsonSchema;
-  let metadata: JsonProperty;
+  let property: JsonProperty;
   let olsResponse: OlsHttpResponse;
 
   beforeEach(() => {
@@ -65,7 +65,7 @@ describe('createSearchParams', () => {
       }
     };
 
-    metadata = new JsonProperty({
+    property = new JsonProperty({
       schema: schema as JsonSchemaProperty,
       key: 'project_role',
       isRequired: false

@@ -59,16 +59,16 @@ export class JsonProperty {
     this.children.push(key);
   }
 
-  addChildMetadata(metadata: JsonProperty) {
-    this.childrenProperties.push(metadata);
+  addChildProperty(property: JsonProperty) {
+    this.childrenProperties.push(property);
   }
 
   setParent(key: string) {
     this.parent = key;
   }
 
-  setParentMetadata(metadata: JsonProperty) {
-    this.parentProperty = metadata;
+  setParentProperty(property: JsonProperty) {
+    this.parentProperty = property;
   }
 
   setHidden(hidden: boolean): boolean {

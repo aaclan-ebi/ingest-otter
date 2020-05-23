@@ -1,7 +1,7 @@
 import {JsonPropertyDirective} from './json-property.directive';
 import {ViewContainerRef} from '@angular/core';
 
-describe('MetadataFieldDirective', () => {
+describe('JsonPropertyDirective', () => {
   let containerSpy: jasmine.SpyObj<ViewContainerRef>;
 
   beforeEach(() => {

@@ -40,34 +40,34 @@ export class JsonPropertyComponent implements OnInit {
     this.loadComponent(this.property, this.control, this.property.key);
   }
 
-  private loadComponent(metadata: JsonProperty, control: AbstractControl, id: string) {
+  private loadComponent(jsonProperty: JsonProperty, control: AbstractControl, id: string) {
     let component;
 
-    if (metadata.isScalar()) {
+    if (jsonProperty.isScalar()) {
 
-      component = metadata.inputType ? components[metadata.inputType] : InputComponent;
-      component = metadata.schema.format === 'date-time' ? DateInputComponent : component;
+      component = jsonProperty.inputType ? components[jsonProperty.inputType] : InputComponent;
+      component = jsonProperty.schema.format === 'date-time' ? DateInputComponent : component;
 
-    } else if (metadata.isScalarList()) {
-      if (metadata.schema.enum) {
+    } else if (jsonProperty.isScalarList()) {
+      if (jsonProperty.schema.enum) {
         component = EnumListInputComponent;
       } else {
         component = TextListInputComponent;
       }
-    } else if (metadata.isObject()) {
+    } else if (jsonProperty.isObject()) {
 
-      if (metadata.schema && metadata.schema.$id && metadata.schema.$id.indexOf('/module/ontology/') >= 0) {
+      if (jsonProperty.schema && jsonProperty.schema.$id && jsonProperty.schema.$id.indexOf('/module/ontology/') >= 0) {
         component = OntologyInputComponent;
       } else {
         component = InputComponent;
         const formGroup = control as FormGroup;
-        for (const child of metadata.childrenProperties) {
+        for (const child of jsonProperty.childrenProperties) {
           this.loadComponent(child, formGroup['controls'][child.key], `${id}'-'${child.key}`);
         }
       }
 
     } else { // object list
-      const schema = metadata.schema.items as JsonSchema;
+      const schema = jsonProperty.schema.items as JsonSchema;
       if (schema.$id.indexOf('/module/ontology/') >= 0) {
         component = OntologyListInputComponent;
       } else {
@@ -80,7 +80,7 @@ export class JsonPropertyComponent implements OnInit {
       const container = this.fieldHost.container;
       container.clear();
       const newComponent = container.createComponent(factory);
-      newComponent.instance.property = metadata;
+      newComponent.instance.property = jsonProperty;
       newComponent.instance.control = control;
       newComponent.instance.id = id;
     }

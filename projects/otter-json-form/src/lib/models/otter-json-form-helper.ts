@@ -18,15 +18,15 @@ export class OtterJsonFormHelper {
   }
 
   getFieldMap(jsonSchema: JsonSchema): Map<string, JsonProperty> {
-    const metadataFieldMap = new Map<string, JsonProperty>();
+    const jsonPropertyMap = new Map<string, JsonProperty>();
     for (const key of Object.keys(jsonSchema?.properties)) {
-      const metadataField = this.createMetadata(jsonSchema, key);
-      metadataFieldMap.set(key, metadataField);
+      const jsonProperty = this.createJsonProperty(jsonSchema, key);
+      jsonPropertyMap.set(key, jsonProperty);
     }
-    return metadataFieldMap;
+    return jsonPropertyMap;
   }
 
-  createMetadata(jsonSchema: JsonSchema, key: string): JsonProperty {
+  createJsonProperty(jsonSchema: JsonSchema, key: string): JsonProperty {
     const property = this.getProperty(key, jsonSchema);
     const requiredFields = jsonSchema.required ? jsonSchema.required : [];
     const hiddenFields = this.config && this.config.hideFields ? this.config.hideFields : [];
@@ -37,15 +37,15 @@ export class OtterJsonFormHelper {
     const inputType = this.config && this.config.inputType && this.config.inputType[key] ?
       this.config.inputType[key] : INPUT_TYPE[property.type]
 
-    const metadataField = new JsonProperty({
-      isRequired: isRequired,
-      isHidden: isHidden,
-      isDisabled: isDisabled,
-      key: key,
+    const jsonProperty = new JsonProperty({
+      isRequired,
+      isHidden,
+      isDisabled,
+      key,
       schema: property,
-      inputType: inputType
+      inputType
     });
-    return metadataField;
+    return jsonProperty;
   }
 
   getProperty(key: string, jsonSchema: JsonSchema): JsonSchemaProperty {

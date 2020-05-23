@@ -2,7 +2,7 @@ import {OtterJsonFormService} from './otter-json-form.service';
 import * as jsonSchema from './test-json-files/test-json-schema.json';
 import {JsonSchema} from './models/json-schema';
 
-describe('MetadataFormService', () => {
+describe('OtterJsonFormService', () => {
 
   let service: OtterJsonFormService;
   let testSchema: JsonSchema;

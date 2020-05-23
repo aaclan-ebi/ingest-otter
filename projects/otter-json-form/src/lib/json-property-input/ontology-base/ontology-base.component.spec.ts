@@ -16,7 +16,7 @@ describe('OntologyBaseComponent', () => {
   let control: AbstractControl;
   let helper: OtterJsonFormHelper;
   let schema: JsonSchema;
-  let metadataSvc: OtterJsonFormService;
+  let otterJsonFormService: OtterJsonFormService;
   let olsResponse: OlsHttpResponse;
 
   beforeEach(() => {
@@ -72,7 +72,7 @@ describe('OntologyBaseComponent', () => {
       isRequired: false
     });
     helper = new OtterJsonFormHelper();
-    metadataSvc = new OtterJsonFormService();
+    otterJsonFormService = new OtterJsonFormService();
     control = helper.toFormGroup(schema);
     const response = {
       numFound: 1,
@@ -100,7 +100,7 @@ describe('OntologyBaseComponent', () => {
   });
 
   describe('onInit', () => {
-    it('should initialise attributes based on metadata and control', () => {
+    it('should initialise attributes based on property and control', () => {
       // given
       const component = new OntologyBaseComponent(olsSvc);
       component.property = property;

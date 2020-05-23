@@ -6,27 +6,27 @@ import {JsonProperty} from './json-property';
 import {JsonSchemaProperty} from './json-schema-property';
 import {OtterJsonFormHelper} from './otter-json-form-helper';
 
-describe('MetadataFormHelper', () => {
+describe('OtterJsonFormHelper', () => {
 
-  let metadataFormHelper: OtterJsonFormHelper;
-  let metadataFormSvc: OtterJsonFormService;
+  let otterJsonFormHelper: OtterJsonFormHelper;
+  let otterJsonFormService: OtterJsonFormService;
   let testSchema: JsonSchema;
 
   beforeEach(() => {
     testSchema = (jsonSchema as any).default;
-    metadataFormHelper = new OtterJsonFormHelper({});
-    metadataFormSvc = new OtterJsonFormService();
+    otterJsonFormHelper = new OtterJsonFormHelper({});
+    otterJsonFormService = new OtterJsonFormService();
   });
 
   it('should be created', () => {
-    expect(metadataFormHelper).toBeTruthy();
+    expect(otterJsonFormHelper).toBeTruthy();
   });
 
   describe('getFieldMap', () => {
     it('return list of Property objects from non-nested schema', () => {
       // given testSchema
       // when
-      const fieldMap = metadataFormHelper.getFieldMap(testSchema);
+      const fieldMap = otterJsonFormHelper.getFieldMap(testSchema);
 
       // then
       const actual_properties = Array.from(fieldMap.keys());
@@ -55,7 +55,7 @@ describe('MetadataFormHelper', () => {
     it('return a FormGroup object', () => {
       // given testSchema
       // when
-      const formGroup = metadataFormHelper.toFormGroup(testSchema);
+      const formGroup = otterJsonFormHelper.toFormGroup(testSchema);
 
       // then
       expect(formGroup).toBeTruthy();
@@ -68,20 +68,20 @@ describe('MetadataFormHelper', () => {
 
     it('return a FormGroup object with initialised data', () => {
       // given
-      const schema = metadataFormHelper.getProperty('contributors', testSchema).items as JsonSchema;
+      const schema = otterJsonFormHelper.getProperty('contributors', testSchema).items as JsonSchema;
       const data = {
         'name': 'Nathan Smith',
         'institution': 'MRCN',
         'corresponding_contributor': false
       };
       // when
-      const formGroup = metadataFormHelper.toFormGroup(schema as JsonSchema, data);
+      const formGroup = otterJsonFormHelper.toFormGroup(schema as JsonSchema, data);
 
       // then
       expect(formGroup instanceof FormGroup).toEqual(true);
       expect(Object.keys(formGroup.controls).length).toEqual(12);
       expect(formGroup.controls['name'] instanceof FormControl).toEqual(true);
-      expect(metadataFormSvc.cleanFormData(formGroup.value)).toEqual(data);
+      expect(otterJsonFormService.cleanFormData(formGroup.value)).toEqual(data);
     });
 
   });
@@ -96,7 +96,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field);
+      const formControl = otterJsonFormHelper.toFormControl(field);
 
       // then
       expect(formControl instanceof FormControl).toEqual(true);
@@ -115,7 +115,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field);
+      const formControl = otterJsonFormHelper.toFormControl(field);
       // then
       expect(formControl instanceof FormControl).toEqual(true);
       expect(formControl.value).toEqual(undefined);
@@ -133,7 +133,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field, 'string');
+      const formControl = otterJsonFormHelper.toFormControl(field, 'string');
 
       // then
       expect(formControl instanceof FormControl).toEqual(true);
@@ -151,7 +151,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field, '');
+      const formControl = otterJsonFormHelper.toFormControl(field, '');
 
       // then
       expect(formControl instanceof FormControl).toEqual(true);
@@ -169,7 +169,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field, []);
+      const formControl = otterJsonFormHelper.toFormControl(field, []);
 
       // then
       expect(formControl instanceof FormControl).toEqual(true);
@@ -187,7 +187,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field, {});
+      const formControl = otterJsonFormHelper.toFormControl(field, {});
 
       // then
       expect(formControl instanceof FormControl).toEqual(true);
@@ -205,7 +205,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field, 100);
+      const formControl = otterJsonFormHelper.toFormControl(field, 100);
 
       // then
       expect(formControl instanceof FormControl).toEqual(true);
@@ -223,7 +223,7 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formControl = metadataFormHelper.toFormControl(field, false);
+      const formControl = otterJsonFormHelper.toFormControl(field, false);
 
       // then
       expect(formControl instanceof FormControl).toEqual(true);
@@ -234,20 +234,20 @@ describe('MetadataFormHelper', () => {
   describe('toFormGroupArray', () => {
     it('return a FormArray of FormGroup', () => {
       // given
-      const schema = metadataFormHelper.getProperty('contributors', testSchema);
+      const schema = otterJsonFormHelper.getProperty('contributors', testSchema);
 
       // when
-      const formArray = metadataFormHelper.toFormGroupArray(schema.items as JsonSchema, undefined);
+      const formArray = otterJsonFormHelper.toFormGroupArray(schema.items as JsonSchema, undefined);
 
       // then
       expect(formArray instanceof FormArray).toEqual(true);
       expect(formArray.controls[0] instanceof FormGroup).toEqual(false);
-      expect(metadataFormSvc.cleanFormData(formArray.value)).toEqual(null);
+      expect(otterJsonFormService.cleanFormData(formArray.value)).toEqual(null);
     });
 
     it('return a FormArray of FormGroup with data', () => {
       // given
-      const schema = metadataFormHelper.getProperty('contributors', testSchema);
+      const schema = otterJsonFormHelper.getProperty('contributors', testSchema);
       const data = [
         {
           'name': 'Nathan Smith',
@@ -266,19 +266,19 @@ describe('MetadataFormHelper', () => {
         }
       ];
       // when
-      const formArray = metadataFormHelper.toFormGroupArray(schema.items as JsonSchema, data);
+      const formArray = otterJsonFormHelper.toFormGroupArray(schema.items as JsonSchema, data);
 
       // then
       expect(formArray instanceof FormArray).toEqual(true);
       expect(formArray.controls[0] instanceof FormGroup).toEqual(true);
-      expect(metadataFormSvc.cleanFormData(formArray.value)).toEqual(data);
+      expect(otterJsonFormService.cleanFormData(formArray.value)).toEqual(data);
     });
   });
 
   describe('toFormControlArray', () => {
     it('return a FormArray of FormControl', () => {
       // given
-      const schema = metadataFormHelper.getProperty('insdc_study_accessions', testSchema);
+      const schema = otterJsonFormHelper.getProperty('insdc_study_accessions', testSchema);
       const field: JsonProperty = new JsonProperty({
         schema: schema,
         key: 'project',
@@ -288,17 +288,17 @@ describe('MetadataFormHelper', () => {
       });
 
       // when
-      const formArray = metadataFormHelper.toFormControlArray(field, undefined);
+      const formArray = otterJsonFormHelper.toFormControlArray(field, undefined);
 
       // then
       expect(formArray instanceof FormArray).toEqual(true);
       expect(formArray.controls[0] instanceof FormControl).toEqual(true);
-      expect(metadataFormSvc.cleanFormData(formArray.value)).toEqual([]);
+      expect(otterJsonFormService.cleanFormData(formArray.value)).toEqual([]);
     });
 
     it('return a FormArray of FormControl with initialised data', () => {
       // given
-      const schema = metadataFormHelper.getProperty('insdc_study_accessions', testSchema);
+      const schema = otterJsonFormHelper.getProperty('insdc_study_accessions', testSchema);
       const field: JsonProperty = new JsonProperty({
         schema: schema,
         key: 'project',
@@ -308,12 +308,12 @@ describe('MetadataFormHelper', () => {
       });
       const data = ['string1', 'string2', 'string3'];
       // when
-      const formArray = metadataFormHelper.toFormControlArray(field, data);
+      const formArray = otterJsonFormHelper.toFormControlArray(field, data);
 
       // then
       expect(formArray instanceof FormArray).toEqual(true);
       expect(formArray.controls[0] instanceof FormControl).toEqual(true);
-      expect(metadataFormSvc.cleanFormData(formArray.value)).toEqual(data);
+      expect(otterJsonFormService.cleanFormData(formArray.value)).toEqual(data);
     });
 
     it('return a FormArray of FormControl with initialised boolean data array', () => {
@@ -338,12 +338,12 @@ describe('MetadataFormHelper', () => {
       });
       const data = [false, false, false];
       // when
-      const formArray = metadataFormHelper.toFormControlArray(field, data);
+      const formArray = otterJsonFormHelper.toFormControlArray(field, data);
 
       // then
       expect(formArray instanceof FormArray).toEqual(true);
       expect(formArray.controls[0] instanceof FormControl).toEqual(true);
-      expect(metadataFormSvc.cleanFormData(formArray.value)).toEqual(data);
+      expect(otterJsonFormService.cleanFormData(formArray.value)).toEqual(data);
     });
   });
 });
